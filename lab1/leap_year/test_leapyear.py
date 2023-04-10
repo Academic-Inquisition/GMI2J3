@@ -8,7 +8,7 @@ import unittest
 import leapyear as ly
 
 
-class LeapYearTypeTest(unittest.TestCase):
+class LeapYearTypeTests(unittest.TestCase):
     def test_leapyear_type(self):
         # Input-Type Tests
         self.assertRaises(TypeError, ly.to_leap_year, "Hello")
@@ -20,7 +20,7 @@ class LeapYearTypeTest(unittest.TestCase):
         self.assertRaises(ValueError, ly.to_leap_year, -5)
 
 
-class LeapYearTests(unittest.TestCase):
+class LeapYearAssertionTests(unittest.TestCase):
     # Established Leap-Years Tests
     def test_leapyear(self):
         leaps = [1996, 2004, 2008, 2012, 2016, 2020, 2024, 2028, 2032, 2036, 2040, 2044, 2048]
