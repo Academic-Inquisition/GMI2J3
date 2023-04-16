@@ -18,11 +18,48 @@ def to_leap_year(year):
     return year % 4 == 0 and not (year % 100 == 0 and not year % 400 == 0)
 
 
-if __name__ == '__main__':
-    print(to_leap_year(1600))
-    print(to_leap_year(1700))
-    print(to_leap_year(1800))
-    print(to_leap_year(1900))
-    print(to_leap_year(2000))
-    print(to_leap_year(2021))
-    print(to_leap_year(2024))
+method_menu = """
+#################
+# roman:      1 #
+# from_roman: 2 #
+#################
+"""
+
+
+def getOptionNumber(minimum: int, maximum: int, statement: str, error: str):  # pragma: no cover
+    try:
+        temp = int(input(statement))
+        check = isInRange(temp, minimum, maximum)
+        while not check:
+            print(error)
+            temp = int(input(statement))
+            check = isInRange(temp, minimum, maximum)
+        return temp
+    except ValueError:
+        print("Error: Invalid Type, must be a number!")
+        pass
+
+
+def isInRange(value_in: int, minimum: int, maximum: int):  # pragma: no cover
+    return minimum <= value_in <= maximum
+
+
+if __name__ == '__main__':  # pragma: no cover
+    while True:
+        try:
+            value = getOptionNumber(
+                0, 1000000,
+                statement="Please enter a year to check for 'leap year', must be between 0 and 1000000: ",
+                error="Error: Invalid value!"
+            )
+            if to_leap_year(value):
+                value = str(value)
+                value += " is a leap year!"
+
+            else:
+                value = str(value)
+                value += " is not a leap year!"
+            print(value)
+            input()
+        except ValueError as e:
+            print(e)
