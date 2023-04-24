@@ -124,3 +124,8 @@ dmypy.json
 .pyre/
 
 Quick and Easy JavaScript Testing with Assert/*.pdf
+lab1/prime/
+**/bin
+**/obj
+**/.vs
+**/.idea
