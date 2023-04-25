@@ -11,6 +11,7 @@ public class FromRomanBadInput
     {
         // Assign
         string test_case = string.Empty;
+
         // Assert
         Assert.ThrowsException<ArgumentOutOfRangeException>(() => RomanNumeral.ParseRoman(test_case));
     }
@@ -20,6 +21,7 @@ public class FromRomanBadInput
     {
         // Assign
         string test_case = null;
+
         // Assert
         Assert.ThrowsException<ArgumentOutOfRangeException>(() => RomanNumeral.ParseRoman(test_case));
     }
@@ -36,6 +38,7 @@ public class FromRomanBadInput
     {
         // Assign
         var result = RomanNumeral.ParseRoman(value);
+
         // Assert
         Assert.IsNull(result, $"Expected null got {result}");
     }
@@ -53,6 +56,7 @@ public class FromRomanBadInput
     {
         // Assign
         var result = RomanNumeral.ParseRoman(value);
+
         // Assert
         Assert.IsNull(result, $"Expected null got {result}");
     }
@@ -63,6 +67,7 @@ public class FromRomanBadInput
     {
         // Assign
         var result = RomanNumeral.ParseRoman(value);
+
         // Assert
         Assert.IsNull(result, $"Expected null got {result}");
     }
@@ -77,14 +82,24 @@ public class FromRomanBadInput
     [DataRow(1000, "m")]
     public void test_lower_case(int expected, string input)
     {
-        Assert.AreEqual(expected, RomanNumeral.ParseRoman(input).Number, $"Expected {expected} got null");
+        // Arrange
+        RomanNumeral roman = RomanNumeral.ParseRoman(input);
+
+        // Assert
+        Assert.AreEqual(expected, roman.Number, $"Expected {expected} got null");
     }
 
     [TestMethod]
-    public void testABC()
+    [DataRow(1, "J")]
+    [DataRow(6, "VJ")]
+    [DataRow(11, "XJ")]
+    public void TestForJSubstitution(int expected, string input)
     {
-        int i = 2;
-        Assert.IsTrue(i == (1 + new RomanNumeral(1)));
+        // Arrange
+        RomanNumeral roman = RomanNumeral.ParseRoman(input);
+
+        // Assert
+        Assert.AreEqual(expected, roman.Number);
     }
 
 }
