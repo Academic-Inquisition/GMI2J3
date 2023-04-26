@@ -6,23 +6,25 @@ namespace RomanNumeralStud.Tests;
 public class TestKnownValues
 {
     [TestMethod]
-    [DataRow("I", 1)]
-    [DataRow("V", 5)]
-    [DataRow("X", 10)]
-    [DataRow("MCMX", 1910)]
-    [DataRow("MMXXIII", 2023)]
-    public void test_to_known_values(string numeral, int expected)
+    public void test_to_known_values()
     {
-        Assert.AreEqual(expected, RomanNumeral.ParseRoman(numeral).Number);
+        // Assert
+        foreach (var known in RomanKnown.values)
+        {
+            RomanNumeral roman = new RomanNumeral(known.Key);
+            string result = roman.ToString();
+            Assert.AreEqual(known.Value, result);
+        }
     }
 
 
     [TestMethod]
-    [DataRow(5, "V")]
-    [DataRow(10, "X")]
-    [DataRow(1910, "MCMX")]
-    public void test_from_known_values(int number, string expected)
+    public void test_from_known_values()
     {
-        Assert.AreEqual(expected, new RomanNumeral(number).ToString());
+        foreach (var known in RomanKnown.FromRomanTable)
+        {
+            int result = RomanNumeral.ParseRoman(known.Key);
+            Assert.AreEqual(known.Value, result);
+        }
     }
 }

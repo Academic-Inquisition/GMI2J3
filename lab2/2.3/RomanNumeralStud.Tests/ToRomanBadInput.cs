@@ -8,10 +8,10 @@ public class ToRomanBadInput
     [TestMethod]
     [DataRow(0)]
     [DataRow(-1)]
-    [ExpectedException(typeof(System.ArgumentOutOfRangeException))]
     public void ReturnArgumentOutOfRange(int input)
     {
-        new RomanNumeral(input).ToString();
+        Action construct = () => new RomanNumeral(input);
+        Assert.ThrowsException<ArgumentOutOfRangeException>(construct);
     }
 
     [TestMethod]
@@ -27,7 +27,7 @@ public class ToRomanBadInput
     }
 
     [TestMethod]
-    public void TestForAdditiveToRoman()
+    public void TestToRoman()
     {
         // Arrange
         RomanNumeral roman = new RomanNumeral(1);
