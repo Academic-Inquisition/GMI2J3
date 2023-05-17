@@ -12,63 +12,8 @@ namespace ImageDownloader
     public class ImageDownloaderTests
     {
 
-        private class ImageDownloaderMock
-        {
-            private readonly HttpClient _client;
-
-            public ImageDownloaderMock(HttpClient client) 
-            {
-                _client = client;
-            }
-
-            public async Task<ImageResponse> GetNewFile(CancellationToken token = default)
-            {
-                var response = await _client.GetAsync("https://www.google.com", token);
-                if (response.IsSuccessStatusCode)
-                {
-                    var stream = await response.Content.ReadAsStringAsync(token);
-                    return JsonSerializer.Deserialize<ImageResponse>(stream);
-                }
-                return JsonSerializer.Deserialize<ImageResponse>("");
-            }
-        }
-
-        private class SystemImageHandlerMock
-        {
-            private readonly IFileSystemHandler _fileSystem;
-
-            public SystemImageHandlerMock(IFileSystemHandler fileSystem)
-            {
-                _fileSystem = fileSystem;
-            }
-
-            public bool WriteImageToDisk(string path, string input)
-            {
-                
-                return _fileSystem.WriteLine(path, input) && _fileSystem.Exists(path);
-            }
-        }
-
-        private class ImageResponse
-        {
-            public string msg { get; set; }
-            public string url { get; set; }
-
-            public ImageResponse(string msg, string url)
-            {
-                this.msg = msg;
-                this.url = url;
-            }
-        }
-
-        public interface IFileSystemHandler
-        {
-            bool Exists(string path);
-            bool WriteLine(string path, string cnt);
-        }
-
         [TestMethod]
-        public async Task GivenMockedHandler_WhenRunningMain_ThenHandlerResponds()
+        public async Task Mocked_GetImage_SaveImage()
         {
             // Arrange
             var http_handler = new Mock<HttpMessageHandler>();
@@ -94,11 +39,10 @@ namespace ImageDownloader
                 BaseAddress = new System.Uri("http://localhost")
             };
 
-            ImageDownloaderMock downloader = new(httpClient);
-            SystemImageHandlerMock handler = new(file_handler.Object);
+            ImageDownloader handler = new(httpClient, file_handler.Object);
 
             // Act
-            var http_result = await downloader.GetNewFile();
+            var http_result = await handler.GetNewFile();
             var io_result = handler.WriteImageToDisk("./temp/images/", http_result.url);
 
             // Assert
